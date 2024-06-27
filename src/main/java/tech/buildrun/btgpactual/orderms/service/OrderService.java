@@ -1,6 +1,9 @@
 package tech.buildrun.btgpactual.orderms.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import tech.buildrun.btgpactual.orderms.controller.dto.OrderResponse;
 import tech.buildrun.btgpactual.orderms.entity.OrderEntity;
 import tech.buildrun.btgpactual.orderms.entity.OrderItem;
 import tech.buildrun.btgpactual.orderms.listener.dto.OrderCreatedEvent;
@@ -26,6 +29,18 @@ public class OrderService {
         entity.setTotal(getTotal(event));
 
         orderRepository.save(entity);
+    }
+
+    /**
+     * Recolher todos os itens da lista e
+     * converter de entity para response
+     * @param customerId
+     * @param pageRequest
+     * @return
+     */
+    public Page<OrderResponse> findAllByCustomerId(Long customerId, PageRequest pageRequest){
+        var orders = orderRepository.findAllByCustomerId(customerId, pageRequest);
+        return orders.map(OrderResponse::fromEntity);
     }
 
     /**
