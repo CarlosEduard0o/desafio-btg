@@ -8,13 +8,16 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.math.BigDecimal;
 import java.util.List;
-//Mapeamento das entidades Order e OrdemItem
+
 @Document(collection = "tb_orders")
 public class OrderEntity {
+
     @MongoId
     private Long orderId;
+
     @Indexed(name = "customer_id_index")
     private Long customerId;
+
     @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal total;
 
